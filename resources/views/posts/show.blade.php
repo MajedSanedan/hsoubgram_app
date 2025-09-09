@@ -19,12 +19,22 @@
                         <a href="" class="font-bold">
                             {{ $post->owner->username }}
                         </a>
-                        
+
                     </div>
-                    @if($post->owner->id===auth()->id())
-                     <a href="{{route('edit_post',$post->slug)}}">
-                            <i class='bx  bx-edit'  ></i> 
+                    @if ($post->owner->id === auth()->id())
+                        <a href="{{ route('edit_post', $post->slug) }}">
+                            <i class='bx  bx-edit'></i>
                         </a>
+
+                        <form action="{{ route('destroy_post', $post->slug) }}" id="delete-post-form-{{ $post->id }}"
+                            method="POST" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <button class="text-red-600" type="button" onclick="confirmDelete({{ $post->id }})">
+                                <i class='bx  bx-trash '  ></i> 
+                                {{-- <li class="bx bx-message-square-x inline ml-2 text-red-600"></li> --}}
+                            </button>
+                        </form>
                     @endif
                 </dv>
             </div>
@@ -101,3 +111,21 @@
 
 
 </x-app-layout>
+    <script>
+        function confirmDelete(postId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'this action can not undone!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3086d6',
+                confirmButtonText: 'Yes Delete it',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-post-form-' + postId).submit();
+                }
+            });
+        }
+    </script>
