@@ -22,6 +22,8 @@ Route::controller(PostController::class)->group(function(){
     Route::get('post/create','create')->name('create_post');
     Route::post('post/create','store')->name('store_post');
     Route::get('post/{post:slug}','show')->name('show_post');
+    Route::get('post/{post:slug}/edit','edit')->name('edit_post');
+    Route::put('post/edit/{post:slug}','update')->name('update_post');
 });
 Route::post('post/{post:slug}/comment',[CommentController::class,'store'])->name('comment_store');
 });

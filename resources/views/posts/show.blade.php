@@ -19,7 +19,13 @@
                         <a href="" class="font-bold">
                             {{ $post->owner->username }}
                         </a>
+                        
                     </div>
+                    @if($post->owner->id===auth()->id())
+                     <a href="{{route('edit_post',$post->slug)}}">
+                            <i class='bx  bx-edit'  ></i> 
+                        </a>
+                    @endif
                 </dv>
             </div>
 
@@ -40,51 +46,52 @@
                         </div>
                     </div>
                 </div>
-            </div>
-             {{-- comments --}}
 
-        @foreach ($post->comments as $comment)
-            <div class="flex items-start px-5 py-2 gap-2">
-                <img src="{{$comment->owner->image}}" class="h-10 w-10 rounded-full ltr:mr-5 rtl:ml-5">
+                {{-- comments --}}
 
-                <div class="flex flex-col">
-                    <div>
-                        <a href="" class="font-bold mr-2 inline-block">
-                            {{$comment->owner->username}}
-                        </a>
-                        <span class="inline">{{$comment->body}}</span>
+                @foreach ($post->comments as $comment)
+                    <div class="flex items-start px-5 py-2 gap-2">
+                        <img src="{{ $comment->owner->image }}" class="h-10 w-10 rounded-full ltr:mr-5 rtl:ml-5">
+
+                        <div class="flex flex-col">
+                            <div>
+                                <a href="" class="font-bold mr-2 inline-block">
+                                    {{ $comment->owner->username }}
+                                </a>
+                                <span class="inline">{{ $comment->body }}</span>
+                            </div>
+                            <div class="mt-1 text-sm text-gray-400">
+                                {{ $comment->created_at->diffForHumans(null, true, true) }}
+                            </div>
+                        </div>
                     </div>
-                    <div class="mt-1 text-sm text-gray-400">
-                        {{$comment->created_at->diffForHumans(null,true,true)}}
+                @endforeach
+            </div>
+
+
+            <div class="border-t p-5">
+                <form action="/post/{{ $post->slug }}/comment" method="POST">
+                    @csrf
+                    @if ($errors->has('body'))
+                        <div class="text-red-500 text-sm mb-2">
+                            {{ $errors->first('body') }}
+                        </div>
+                    @endif
+
+                    <div class="flex flex-row">
+                        <textarea name="body" id="comment_body" placeholder="{{ __('Add a comment') }}"
+                            class="h-5 grow resize-none overflow-hidden border-none bg-none p-0 placeholder-gray-400 outline-0 focus:ring-0"
+                            required></textarea>
+                        <button type="submit" class="ltr:ml-5 rtl:ml-5 border-none bg-white text-blue-500">
+                            {{ __('comment') }}
+                        </button>
                     </div>
-                </div>
+                </form>
             </div>
-        @endforeach
 
-
-
-        <div class="border-t p-5">
-            <form action="/post/{{$post->slug}}/comment" method="POST">
-            @csrf
-            @if ($errors->has('body'))
-            <div class="text-red-500 text-sm mb-2">
-                {{$errors->first('body')}}
-            </div>
-            @endif
-
-            <div class="flex flex-row">
-                <textarea name="body" id="comment_body" placeholder="{{__('Add a comment')}}"
-                class="h-5 grow resize-none overflow-hidden border-none bg-none p-0 placeholder-gray-400 outline-0 focus:ring-0" required></textarea>
-                <button type="submit" class="ltr:ml-5 rtl:ml-5 border-none bg-white text-blue-500">
-                    {{__('comment')}}
-                </button>
-            </div>
-            </form>
         </div>
 
-        </div>
 
-       
 
 
 
