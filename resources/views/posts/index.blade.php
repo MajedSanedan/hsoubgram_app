@@ -1,4 +1,4 @@
-<x-home-layout>
+<x-app-layout>
     <!-- Main Content -->
     <div class="container">
         <div class="row">
@@ -70,4 +70,4 @@
         </div>
     </div>
     </div>
-</x-home-layout>
+</x-app-layout>

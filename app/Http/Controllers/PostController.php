@@ -101,4 +101,11 @@ class PostController extends Controller
 
         return redirect()->route('welcome');
     }
+
+    public function explore()
+    {
+        $posts=Post::whereRelation('owner','prvate_account',0)->whereNot('user_id',auth()->id())->simplePaginate(9);
+
+        return view('posts.explore',compact('posts'));
+    }
 }
