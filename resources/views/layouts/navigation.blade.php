@@ -78,7 +78,7 @@
 
                     <x-slot name="content">
                         
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <x-dropdown-link :href="route('user_profile',Auth::user()->username)">
                             <i class="fas fa-user me-2"></i>
                             {{ __('Profile') }}
                         </x-dropdown-link>

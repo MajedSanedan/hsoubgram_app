@@ -37,11 +37,11 @@
 
                 {{-- user information --}}
                 <div class="profile-card">
-                    <img src="{{$post->owner->image}}"
+                    <img src="{{Auth::user()->image}}"
                         alt="User" class="user-avatar" width="56">
                     <div class="profile-info">
-                        <a href="#" class="profile-name">{{ $post->owner->username }}</a>
-                        <span class="profile-subtext">{{ $post->owner->name }}</span>
+                        <a href="{{route('user_profile',Auth::user()->username)}}" class="profile-name">{{ Auth::user()->username }}</a>
+                        <span class="profile-subtext">{{ Auth::user()->name}}</span>
                     </div>
                     {{-- <button class="switch-btn">Switch</button> --}}
                 </div>
@@ -57,7 +57,7 @@
                             <img src="{{$suggested->image}}"
                                 alt="User" class="user-avatar" width="32">
                             <div class="suggestion-info">
-                                <a href="#" class="profile-name">{{$suggested->username}}</a>
+                                <a href="{{route('user_profile',$suggested->username)}}" class="profile-name">{{$suggested->username}}</a>
                                 <span class="profile-subtext">{{$suggested->name}}</span>
                             </div>
                             <button class="follow-btn">Follow</button>
