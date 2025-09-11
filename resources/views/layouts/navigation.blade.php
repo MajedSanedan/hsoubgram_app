@@ -66,7 +66,7 @@
                             
                             <div>
                                 
-                                <img src="{{Auth::user()->image}}" alt="" class="h-7 w-7 rounded-full">
+                                <img src="{{Str::startsWith(Auth::user()->image,'https')? Auth::user()->image : asset('storage/'. Auth::user()->image)}}" alt="" class="h-7 w-7 rounded-full">
                             </div>
 
                             <div class="ms-1">

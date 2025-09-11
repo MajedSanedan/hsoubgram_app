@@ -17,8 +17,9 @@ class PostController extends Controller
     public function index()
     {
         $posts=Post::all();
+        $users= User::all();
         $suggestedUsers= auth()->user()->suggested_users();
-        return view('posts.index',compact('posts','suggestedUsers'));
+        return view('posts.index',compact('posts','suggestedUsers','users'));
     }
 
     /**
@@ -99,7 +100,7 @@ class PostController extends Controller
 
         $post->delete();
 
-        return redirect()->route('welcome');
+        return redirect()->route('user_profile',$post->owner->username);
     }
 
     public function explore()

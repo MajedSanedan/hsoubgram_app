@@ -4,7 +4,7 @@
     <div class="profile-container">
         <!-- Profile Header -->
         <div class="profile-header">
-            <img src="{{ $user->image }}" alt="{{ $user->username }}" class="profile-avatar mt-10 ">
+            <img src="{{Str::startsWith($user->image,'http')? $user->image : asset('storage/'.$user->image)}}" alt="{{ $user->username }}" class="profile-avatar mt-10 ">
 
             <div class="profile-info mt-10">
                 <h1 class="profile-username ml-10">{{ $user->username }}</h1>
@@ -43,7 +43,9 @@
 
                 <div class="profile-bio ml-10">
                     <div class="profile-name"> {{ $user->name }}</div>
-                    <p class="profile-bio-text">{{ $user->bio }}</p>
+                   {!!
+                        nl2br(e($user->bio))
+                            !!}
                     <a href="#" class="profile-website">www.{{ $user->username }}.com</a>
                 </div>
             </div>

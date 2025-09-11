@@ -42,7 +42,7 @@
             {{-- Middle --}}
             <div class="grow">
                 <div class="flex items-start px-5 py-2 gap-3">
-                    <img src="{{ $post->owner->image }}" class="ltr:mr-5 rtl:ml-5 h-10 w-10 rounded-full">
+                    <img src="{{ Str::startsWith($post->owner->image,'https')? $post->owner->image : asset('storage/'.$post->owner->image) }}" class="ltr:mr-5 rtl:ml-5 h-10 w-10 rounded-full">
 
                     <div class="flex flex-col">
                         <div>
@@ -61,7 +61,7 @@
 
                 @foreach ($post->comments as $comment)
                     <div class="flex items-start px-5 py-2 gap-2">
-                        <img src="{{ $comment->owner->image }}" class="h-10 w-10 rounded-full ltr:mr-5 rtl:ml-5">
+                        <img src="{{ Str::startsWith($comment->owner->image ,'https')? $comment->owner->image : asset('storage/'.$comment->owner->image )}}" class="h-10 w-10 rounded-full ltr:mr-5 rtl:ml-5">
 
                         <div class="flex flex-col">
                             <div>

@@ -8,13 +8,29 @@
                 <!-- Stories -->
 
                 <div class="stories-container">
-                    <div class="story">
-                        <div class="story-avatar">
-                            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80"
+                    
+                    @foreach ($users as $user)
+                    @if (auth()->id()==$user->id)
+                        <div class="story">      
+                           <div class="story-avatar">
+                            <img src="{{Str::startsWith($user->image,'http')? $user->image : asset('storage/'.$user->image)}}"
                                 alt="Your Story">
                         </div>
-                        <div class="story-username">Your Story</div>
+                        <div class="story-username">{{$user->username}}</div>    
                     </div>
+                    @endif
+                 @endforeach
+                 @foreach ($users as $user)
+                  @if (auth()->id()!=$user->id)
+                        <div class="story">      
+                           <div class="story-avatar">
+                            <img src="{{Str::startsWith($user->image,'http')? $user->image : asset('storage/'.$user->image)}}"
+                                alt="Your Story">
+                        </div>
+                        <div class="story-username">{{$user->username}}</div>    
+                    </div>
+                    @endif
+                 @endforeach
                 </div>
                 <!-- Posts -->
                 <div class="post-container">
@@ -37,7 +53,7 @@
 
                 {{-- user information --}}
                 <div class="profile-card">
-                    <img src="{{Auth::user()->image}}"
+                    <img src="{{Str::startsWith(Auth::user()->image,'https')? Auth::user()->image : asset('storage/'. Auth::user()->image)}}"
                         alt="User" class="user-avatar" width="56">
                     <div class="profile-info">
                         <a href="{{route('user_profile',Auth::user()->username)}}" class="profile-name">{{ Auth::user()->username }}</a>
@@ -54,7 +70,7 @@
 
                     @foreach ($suggestedUsers as $suggested)
                         <div class="suggestion-item">
-                            <img src="{{$suggested->image}}"
+                            <img src="{{Str::startsWith($suggested->image,'http')? $suggested->image : asset('storage/'.$suggested->image)}}"
                                 alt="User" class="user-avatar" width="32">
                             <div class="suggestion-info">
                                 <a href="{{route('user_profile',$suggested->username)}}" class="profile-name">{{$suggested->username}}</a>

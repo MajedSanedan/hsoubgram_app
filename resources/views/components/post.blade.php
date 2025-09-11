@@ -2,7 +2,7 @@
     <div class="post-container">
 
         <div class="post-header">
-            <img src="{{ $post->owner->image }}" alt="User" class="user-avatar">
+            <img src="{{Str::startsWith($post->owner->image,'http')? $post->owner->image : asset('storage/'.$post->owner->image)}}" alt="User" class="user-avatar">
             <a href="#" class="username">{{ $post->owner->username }}</a>
             <a href="#" class="post-more"><i class="fas fa-ellipsis-h"></i></a>
         </div>
