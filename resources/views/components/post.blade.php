@@ -10,10 +10,19 @@
         <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->description }}" class="post-image">
 
         <div class="post-actions">
-            <button class="action-btn liked"><i class="fas fa-heart"></i></button>
-            <button class="action-btn"><i class="far fa-comment"></i></button>
-            <button class="action-btn"><i class="far fa-paper-plane"></i></button>
-            <button class="action-btn save"><i class="far fa-bookmark"></i></button>
+
+            <a  href="{{route('post_like',$post->slug)}}">
+                @if ($post->liked(auth()->user()))
+                <div class="action-btn liked">
+                  <i class="fas fa-heart text-2xl "></i>
+                  </div>   
+                @else
+                   <i class="far fa-heart text-2xl hover:text-gray-400 cursor-pointer mr-3"></i> 
+                @endif
+                </a>
+            <a class="action-btn" href="{{route('show_post',$post->slug)}}"><i class="far fa-comment text-2xl hover:text-gray-400 cursor-pointer mr-3"></i></a>
+            <a class="action-btn"><i class="far fa-paper-plane text-2xl hover:text-gray-400 cursor-pointer mr-3"></i></a>
+            <a class="action-btn save"><i class="far fa-bookmark text-2xl hover:text-gray-400 cursor-pointer mr-3"></i></a>
         </div>
 
         <div class="post-likes">8,932 likes</div>

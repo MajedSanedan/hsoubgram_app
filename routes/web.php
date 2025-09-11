@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\likecontroller;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -28,6 +29,7 @@ Route::controller(PostController::class)->group(function(){
     Route::get('/explore','explore')->name('explore');
 });
 Route::post('post/{post:slug}/comment',[CommentController::class,'store'])->name('comment_store');
+Route::get('post/{post:slug}/like',likecontroller::class)->name('post_like');
 
 // Route::get('home',[PostController::class,'index'])->name('home_page');
 });
