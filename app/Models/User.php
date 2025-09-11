@@ -76,4 +76,26 @@ class User extends Authenticatable
     {
         return User::whereNot('id',auth()->id())->get()->shuffle()->take(5);
     }
+
+    public function follow(User $user)
+    {
+        if($this->id==$user->id)
+        {
+            return;
+        }
+
+        if($user->prvate_account)
+        {
+            $this->following()->attach($user,['confirmed'=>false]);
+        }
+        else
+        {
+           $this->following()->attach($user,['confirmed'=>true]); 
+        }
+    }
+
+    public function unfollow(User $user)
+    {
+       return $this->following()->detach($user->id);
+    }
 }
