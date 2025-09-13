@@ -11,24 +11,27 @@
                 <h1 class="profile-username ml-10">{{ $user->username }}</h1>
                 <div class="d-flex align-items-center mb-3 ml-10">
                     <div class="profile-actions">
-                        @if (auth()->id() == $user->id)
-                            <a href="/profile" class="action-btn btn-primary">
-                                <i class="fas fa-edit"></i> {{ __('Edit Profile') }}
-                            </a>
-                        @elseif(auth()->user()->isFollowing($user))
-                        
-                            <a href="{{ route('unfollow', $user->username) }}" class="action-btn btn-primary bg-red-500">
-                                {{ __('unfollow') }}
-                            </a>
-                        @elseif(auth()->user()->isPanding($user))
-                            <a href="" class="action-btn btn-primary bg-gray-400">
-                                {{ __('panding..') }}
-                            </a>
-                        @else
-                       
-                            <a href="{{ route('follow', $user->username) }}"
-                                class="action-btn btn-primary">{{ __('follow') }}</a>
-                        @endif
+                        @auth
+
+
+                            @if (auth()->id() == $user->id)
+                                <a href="/profile" class="action-btn btn-primary">
+                                    <i class="fas fa-edit"></i> {{ __('Edit Profile') }}
+                                </a>
+                            @elseif(auth()->user()->isFollowing($user))
+                                <a href="{{ route('unfollow', $user->username) }}"
+                                    class="action-btn btn-primary bg-red-500">
+                                    {{ __('unfollow') }}
+                                </a>
+                            @elseif(auth()->user()->isPanding($user))
+                                <a href="" class="action-btn btn-primary bg-gray-400">
+                                    {{ __('panding..') }}
+                                </a>
+                            @else
+                                <a href="{{ route('follow', $user->username) }}"
+                                    class="action-btn btn-primary">{{ __('follow') }}</a>
+                            @endif
+                        @endauth
                         @guest
                             <a href="/login" class="action-btn btn-primary">{{ __('follow') }}</a>
                         @endguest
@@ -92,7 +95,7 @@
                             @if (auth()->id() == $user->id)
                                 <div class="post-hover">
                                     <div class="post-stats">
-                                        <i class="fas fa-heart"></i> {{$post->likes->count()}}
+                                        <i class="fas fa-heart"></i> {{ $post->likes->count() }}
                                     </div>
                                     <div class="post-stats">
                                         <i class="fas fa-comment"></i> {{ $post->comments->count() }}

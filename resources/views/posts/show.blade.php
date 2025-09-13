@@ -13,21 +13,21 @@
             {{-- top --}}
             <div class="border-b2">
                 <dv class="flex items-center pt-3 pl-3 pr-3 gap-0 ">
-                    <img src="{{ Str::startsWith($post->owner->image, 'https') ? $post->owner->image : asset('storage/' . $post->owner->image)  }}" alt="{{ $post->owner->username }}"
-                        class="mr-5 h-10 w-10 rounded-full">
+                    <img src="{{ Str::startsWith($post->owner->image, 'https') ? $post->owner->image : asset('storage/' . $post->owner->image) }}"
+                        alt="{{ $post->owner->username }}" class="mr-5 h-10 w-10 rounded-full">
                     <div class="grow">
                         <a href="" class="font-bold">
                             {{ $post->owner->username }}
                         </a>
 
                     </div>
-                    @if ($post->owner->id === auth()->id())
+                    @can('update', $post)
                         <a href="{{ route('edit_post', $post->slug) }}">
                             <i class='bx  bx-edit'></i>
                         </a>
 
-                        <form action="{{ route('destroy_post', $post->slug) }}"
-                            id="delete-post-form-{{ $post->id }}" method="POST" class="inline">
+                        <form action="{{ route('destroy_post', $post->slug) }}" id="delete-post-form-{{ $post->id }}"
+                            method="POST" class="inline">
                             @csrf
                             @method('DELETE')
                             <button class="text-red-600" type="button" onclick="confirmDelete({{ $post->id }})">
@@ -35,18 +35,22 @@
                                 {{-- <li class="bx bx-message-square-x inline ml-2 text-red-600"></li> --}}
                             </button>
                         </form>
-                    @elseif(auth()->user()->isFollowing($post->owner))
-                        <a href="{{ route('unfollow', $post->owner->username) }}" class="action-btn btn-primary bg-red-500">
-                            {{ __('unfollow') }}
-                        </a>
-                    @elseif(auth()->user()->isPanding($post->owner))
-                        <a href="" class="action-btn btn-primary bg-gray-400">
-                            {{ __('panding..') }}
-                        </a>
-                    @else
-                        <a href="{{ route('follow', $post->owner->username) }}"
-                            class="action-btn btn-primary">{{ __('follow') }}</a>
-                    @endif
+                    @endcan
+                    @cannot('update', $post)
+                        @if (auth()->user()->isFollowing($post->owner))
+                            <a href="{{ route('unfollow', $post->owner->username) }}"
+                                class="action-btn btn-primary bg-red-500">
+                                {{ __('unfollow') }}
+                            </a>
+                        @elseif(auth()->user()->isPanding($post->owner))
+                            <a href="" class="action-btn btn-primary bg-gray-400">
+                                {{ __('panding..') }}
+                            </a>
+                        @else
+                            <a href="{{ route('follow', $post->owner->username) }}"
+                                class="action-btn btn-primary">{{ __('follow') }}</a>
+                        @endif
+                    @endcannot
                 </dv>
             </div>
 
