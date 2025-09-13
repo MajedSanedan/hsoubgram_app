@@ -3,7 +3,7 @@
 
         <div class="post-header">
             <img src="{{Str::startsWith($post->owner->image,'http')? $post->owner->image : asset('storage/'.$post->owner->image)}}" alt="User" class="user-avatar">
-            <a href="#" class="username">{{ $post->owner->username }}</a>
+            <a href="{{route('user_profile',$post->owner->username)}}" class="username">{{ $post->owner->username }}</a>
             <a href="#" class="post-more"><i class="fas fa-ellipsis-h"></i></a>
         </div>
 

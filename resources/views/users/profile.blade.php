@@ -4,7 +4,8 @@
     <div class="profile-container">
         <!-- Profile Header -->
         <div class="profile-header">
-            <img src="{{Str::startsWith($user->image,'http')? $user->image : asset('storage/'.$user->image)}}" alt="{{ $user->username }}" class="profile-avatar mt-10 ">
+            <img src="{{ Str::startsWith($user->image, 'http') ? $user->image : asset('storage/' . $user->image) }}"
+                alt="{{ $user->username }}" class="profile-avatar mt-10 ">
 
             <div class="profile-info mt-10">
                 <h1 class="profile-username ml-10">{{ $user->username }}</h1>
@@ -14,8 +15,19 @@
                             <a href="/profile" class="action-btn btn-primary">
                                 <i class="fas fa-edit"></i> {{ __('Edit Profile') }}
                             </a>
+                        @elseif(auth()->user()->isFollowing($user))
+                        
+                            <a href="{{ route('unfollow', $user->username) }}" class="action-btn btn-primary bg-red-500">
+                                {{ __('unfollow') }}
+                            </a>
+                        @elseif(auth()->user()->isPanding($user))
+                            <a href="" class="action-btn btn-primary bg-gray-400">
+                                {{ __('panding..') }}
+                            </a>
                         @else
-                            <a href="" class="action-btn btn-primary">{{ __('follow') }}</a>
+                       
+                            <a href="{{ route('follow', $user->username) }}"
+                                class="action-btn btn-primary">{{ __('follow') }}</a>
                         @endif
                         @guest
                             <a href="/login" class="action-btn btn-primary">{{ __('follow') }}</a>
@@ -32,20 +44,21 @@
                         <div class="stat-label">{{ $user->posts->count() > 1 ? __('posts') : __('post') }}</div>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-count">3,456</span>
-                        <div class="stat-label"> <a href=""> {{ __('followers') }}</a></div>
+                        <span
+                            class="stat-count">{{ $user->followers()->wherePivot('confirmed', true)->get()->count() }}</span>
+                        <div class="stat-label"> <a href="">
+                                {{ $user->followers()->count() > 1 ? __('followers') : __('follower') }}</a></div>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-count">567</span>
+                        <span
+                            class="stat-count">{{ $user->following()->wherePivot('confirmed', true)->get()->count() }}</span>
                         <div class="stat-label"><a href=""> {{ __('following') }}</a></div>
                     </div>
                 </div>
 
                 <div class="profile-bio ml-10">
                     <div class="profile-name"> {{ $user->name }}</div>
-                   {!!
-                        nl2br(e($user->bio))
-                            !!}
+                    {!! nl2br(e($user->bio)) !!}
                     <a href="#" class="profile-website">www.{{ $user->username }}.com</a>
                 </div>
             </div>
@@ -79,7 +92,7 @@
                             @if (auth()->id() == $user->id)
                                 <div class="post-hover">
                                     <div class="post-stats">
-                                        <i class="fas fa-heart"></i> 1,234
+                                        <i class="fas fa-heart"></i> {{$post->likes->count()}}
                                     </div>
                                     <div class="post-stats">
                                         <i class="fas fa-comment"></i> {{ $post->comments->count() }}

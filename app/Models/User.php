@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+
 
 class User extends Authenticatable
 {
@@ -60,42 +63,53 @@ class User extends Authenticatable
 
     public function likes()
     {
-        return $this->belongsToMany(Post::class,'likes');
+        return $this->belongsToMany(Post::class, 'likes');
     }
 
     public function following()
     {
-        return $this->belongsToMany(User::class,'follows','user_id','following_user_id')->withPivot('confirmed');
+        return $this->belongsToMany(User::class, 'follows', 'user_id', 'following_user_id')->withPivot('confirmed');
     }
     public function followers()
     {
-        return $this->belongsToMany(User::class,'follows','following_user_id','user_id')->withPivot('confirmed');
+        return $this->belongsToMany(User::class, 'follows', 'following_user_id', 'user_id')->withPivot('confirmed');
     }
 
     public function suggested_users()
     {
-        return User::whereNot('id',auth()->id())->get()->shuffle()->take(5);
+        $user = Auth::user();
+        return User::where('id', '!=', $user->id)
+            ->whereNotIn('id', $user->following()->pluck('users.id'))
+            ->inRandomOrder()
+            ->limit(5)
+            ->get();
     }
 
     public function follow(User $user)
     {
-        if($this->id==$user->id)
-        {
+        if ($this->id == $user->id) {
             return;
         }
 
-        if($user->prvate_account)
-        {
-            $this->following()->attach($user,['confirmed'=>false]);
-        }
-        else
-        {
-           $this->following()->attach($user,['confirmed'=>true]); 
+        if ($user->prvate_account) {
+            $this->following()->attach($user, ['confirmed' => false]);
+        } else {
+            $this->following()->attach($user, ['confirmed' => true]);
         }
     }
 
     public function unfollow(User $user)
     {
-       return $this->following()->detach($user->id);
+        return $this->following()->detach($user->id);
+    }
+
+    public function isFollowing(User $user)
+    {
+        return $this->following()->where('following_user_id', $user->id)->where('confirmed', true)->exists();
+    }
+
+    public function isPanding(User $user)
+    {
+        return   $this->following()->where('following_user_id', $user->id)->where('confirmed', false)->exists();
     }
 }
