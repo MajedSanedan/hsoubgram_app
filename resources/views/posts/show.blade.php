@@ -98,15 +98,7 @@
 
             <div class="post-actions">
 
-                <a href="{{ route('post_like', $post->slug) }}">
-                    @if ($post->liked(auth()->user()))
-                        <div class="action-btn liked">
-                            <i class="fas fa-heart text-2xl "></i>
-                        </div>
-                    @else
-                        <i class="far fa-heart text-2xl hover:text-gray-400 cursor-pointer mr-3"></i>
-                    @endif
-                </a>
+               @livewire('like',['post'=>$post])
                 <a class="action-btn" onclick="document.getElementById('comment_body').focus()"><i
                         class="far fa-comment text-2xl hover:text-gray-400 cursor-pointer mr-3"></i></a>
                 <a class="action-btn"><i
@@ -114,6 +106,7 @@
                 <a class="action-btn save"><i
                         class="far fa-bookmark text-2xl hover:text-gray-400 cursor-pointer mr-3"></i></a>
             </div>
+            @livewire('likedby',['post'=>$post])
             <div class="border-t p-5">
                 <form action="/post/{{ $post->slug }}/comment" method="POST">
                     @csrf
