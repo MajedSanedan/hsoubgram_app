@@ -16,7 +16,7 @@
                     <img src="{{ Str::startsWith($post->owner->image, 'https') ? $post->owner->image : asset('storage/' . $post->owner->image) }}"
                         alt="{{ $post->owner->username }}" class="mr-5 h-10 w-10 rounded-full">
                     <div class="grow">
-                        <a href="" class="font-bold">
+                        <a href="{{route('user_profile',$post->owner->username)}}" class="font-bold">
                             {{ $post->owner->username }}
                         </a>
 
@@ -37,19 +37,7 @@
                         </form>
                     @endcan
                     @cannot('update', $post)
-                        @if (auth()->user()->isFollowing($post->owner))
-                            <a href="{{ route('unfollow', $post->owner->username) }}"
-                                class="action-btn btn-primary bg-red-500">
-                                {{ __('unfollow') }}
-                            </a>
-                        @elseif(auth()->user()->isPanding($post->owner))
-                            <a href="" class="action-btn btn-primary bg-gray-400">
-                                {{ __('panding..') }}
-                            </a>
-                        @else
-                            <a href="{{ route('follow', $post->owner->username) }}"
-                                class="action-btn btn-primary">{{ __('follow') }}</a>
-                        @endif
+                       @livewire('followbutton',['userfriend'=>$post->owner,'classes'=>'follow-btn'])
                     @endcannot
                 </dv>
             </div>

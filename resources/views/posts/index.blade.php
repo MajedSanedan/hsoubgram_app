@@ -89,7 +89,7 @@
                                         class="profile-name">{{ $suggested->username }}</a>
                                     <span class="profile-subtext">{{ $suggested->name }}</span>
                                 </div>
-                                <a href="{{ route('follow', $suggested->username) }}" class="follow-btn">Follow</a>
+                                @livewire('followbutton', ['userfriend' => $suggested, 'classes' => 'follow-btn'])
                             </div>
                         @endforeach
                     </div>

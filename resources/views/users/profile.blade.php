@@ -18,18 +18,8 @@
                                 <a href="/profile" class="action-btn btn-primary">
                                     <i class="fas fa-edit"></i> {{ __('Edit Profile') }}
                                 </a>
-                            @elseif(auth()->user()->isFollowing($user))
-                                <a href="{{ route('unfollow', $user->username) }}"
-                                    class="action-btn btn-primary bg-red-500">
-                                    {{ __('unfollow') }}
-                                </a>
-                            @elseif(auth()->user()->isPanding($user))
-                                <a href="" class="action-btn btn-primary bg-gray-400">
-                                    {{ __('panding..') }}
-                                </a>
-                            @else
-                                <a href="{{ route('follow', $user->username) }}"
-                                    class="action-btn btn-primary">{{ __('follow') }}</a>
+                          @else
+                          @livewire('followbutton',['userfriend'=>$user,'showbg'=>true,'classes'=>'btn-primary'])
                             @endif
                         @endauth
                         @guest
