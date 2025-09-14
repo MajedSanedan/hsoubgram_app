@@ -36,17 +36,14 @@
                         <span class="stat-count">{{ $user->posts->count() }}</span>
                         <div class="stat-label">{{ $user->posts->count() > 1 ? __('posts') : __('post') }}</div>
                     </div>
-                    <div class="stat-item">
+                    {{-- <div class="stat-item">
                         <span
                             class="stat-count">{{ $user->followers()->wherePivot('confirmed', true)->get()->count() }}</span>
                         <div class="stat-label"> <a href="">
                                 {{ $user->followers()->count() > 1 ? __('followers') : __('follower') }}</a></div>
-                    </div>
-                    <div class="stat-item">
-                        <span
-                            class="stat-count">{{ $user->following()->wherePivot('confirmed', true)->get()->count() }}</span>
-                        <div class="stat-label"><a href=""> {{ __('following') }}</a></div>
-                    </div>
+                    </div> --}}
+                    @livewire('follower',['userId'=>$user->id])
+                   @livewire('following',['userId'=>$user->id])
                 </div>
 
                 <div class="profile-bio ml-10">

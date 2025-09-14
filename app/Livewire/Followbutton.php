@@ -39,6 +39,7 @@ class Followbutton extends Component
         $user=Auth::user();
         $this->isFollowing=$user->isFollowing($this->userfriend);
         $this->isPanding=$user->isPanding($this->userfriend);
+        
     }
     public function render()
     {
