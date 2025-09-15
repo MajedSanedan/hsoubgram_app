@@ -18,10 +18,9 @@ class PandingFollowersList extends Component
 
     public function confirme($id)
     {
-        dd($id);
-        // $this->follower = User::find($id);
-        // Auth::user()->confirme($this->follower);
-        // $this->dispatch('reqConfirmed');
+        $this->follower = User::find($id);
+        Auth::user()->confirme($this->follower);
+        $this->dispatch('reqConfirmed');
     }
     public function delete($id)
     {

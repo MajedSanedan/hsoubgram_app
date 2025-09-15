@@ -1,4 +1,4 @@
-<div  class="max-h-64 overflow-y-auto w-full">
+<div wire:poll.2s class="max-h-64 overflow-y-auto w-full">
     <ul class="w-full devide-y devide-gray-200">
         @forelse (auth()->user()->panding_followers() as $panding)
             <li class="flex  items-center justify-between gap-2 p-3 w-full" wire:key="user-{{ $panding->id }}">
