@@ -65,9 +65,30 @@
                 <a href="#" class="nav-icon"><i class="far fa-heart"></i></a>
                  --}}
 
+ 
 
+                 <div class=" md:block p-3">
+                     <x-dropdown align="right" width="96">
+                        <x-slot name="trigger">
+                            <button
+                                class="text-[1.6rem] ltr:mr-2 rtl:mr-2 leading-5">
 
+                                <div class="relative">
+                                     <i class="ibx bxs-inbox"></i>
+                                    <livewire:panding-followers-count />
+                                </div>
 
+                            </button>
+
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <livewire:panding-followers-list />
+
+                        </x-slot>
+
+                    </x-dropdown>
+                 </div>
 
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">

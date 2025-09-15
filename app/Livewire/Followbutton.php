@@ -39,7 +39,8 @@ class Followbutton extends Component
         $user=Auth::user();
         $this->isFollowing=$user->isFollowing($this->userfriend);
         $this->isPanding=$user->isPanding($this->userfriend);
-        
+        $this->dispatch('followstatuschanged');
+
     }
     public function render()
     {

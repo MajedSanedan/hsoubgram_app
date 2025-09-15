@@ -9,7 +9,7 @@ class Follower extends Component
      public $userId;
     protected $user;
 
-    protected $listeners = ['unfollowuser' => '$refresh'];
+    protected $listeners = ['unfollowuser' => '$refresh','followstatuschanged' => '$refresh'];
     public function getCountProperty()
     {
         $this->user = User::find($this->userId);

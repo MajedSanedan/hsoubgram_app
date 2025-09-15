@@ -112,4 +112,17 @@ class User extends Authenticatable
     {
         return   $this->following()->where('following_user_id', $user->id)->where('confirmed', false)->exists();
     }
+
+    public function panding_followers()
+    {
+        return $this->followers()->wherePivot('confirmed', false)->get();
+    }
+    public function confirme(User $user)
+    {
+        return $this->followers()->where('user_id',$user->id)->update(['confirmed' => true]);
+    }
+    public function deleteReq(User $user)
+    {
+        return $this->followers()->detach($user);
+    }
 }
